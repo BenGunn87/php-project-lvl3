@@ -5,6 +5,7 @@ services:
       args:
         user: sammy
         uid: 1000
+        DEBUG_HOST: host.docker.internal
       context: ./
       dockerfile: Dockerfile
     image: lvl3

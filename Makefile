@@ -50,7 +50,7 @@ compose-bash:
 compose-setup: compose-build
 	docker-compose run web make setup
 
-compose-setup-start: compose-build
+compose-start: compose-build
 	docker-compose up -d
 	docker-compose run app make setup-start
 
