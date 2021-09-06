@@ -26,19 +26,30 @@ Route::get('/urls', function () {
     return view('urls.index', compact('urls'));
 })->name('urls.index');
 
+Route::get('/urls/{id}', function ($id) {
+    $url = DB::table('urls')->find($id);
+    return view('urls.show', compact('url'));
+})->name('urls.show');
+
 Route::post('/urls', function (Request $request) {
     $data = $request->all();
     $url = $data['url'];
-    if ($url['name'] === null || filter_var($url['name'], FILTER_VALIDATE_URL) === false) {
+    if ($url['name'] === null
+        || filter_var($url['name'], FILTER_VALIDATE_URL) === false
+        || strlen($url['name']) > 255
+    ) {
         flash('Input valid url')->error();
         return view('urls.create', compact('url'));
     }
-
-    DB::table('urls')->insert([
-        'name' => $data['url']['name'],
-        'created_at' => Carbon::now(),
-        'updated_at' => Carbon::now()
-    ]);
+    $name = $url['name'];
+    $url = DB::table('urls')->where('name', '=', $name)->first();
+    if ($url === null) {
+        DB::table('urls')->insert([
+            'name' => $name,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+    }
 
     flash('Url was created')->success();
     return redirect()
