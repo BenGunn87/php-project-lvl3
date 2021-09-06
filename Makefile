@@ -61,4 +61,4 @@ compose-db:
 	docker-compose exec db psql -U postgres
 
 compose-down:
-	docker-compose down -v
+	docker-compose down
