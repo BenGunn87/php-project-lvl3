@@ -20,6 +20,6 @@ jobs:
           php-version: '7.4'
       - name: Setup
         # Install project
-        run: make setup
+        run: make setup-for-auto-test
       - name: Run tests
         run: make test
