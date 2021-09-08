@@ -18,8 +18,8 @@ jobs:
         with:
           # Specify the PHP version
           php-version: '7.4'
-      - name: Install
+      - name: Setup
         # Install project
-        run: make install
+        run: make setup
       - name: Run tests
         run: make test
