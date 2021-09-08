@@ -24,6 +24,18 @@ class UrlControllerTest extends TestCase
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
+        Db::table('url_checks')->insert([
+            'url_id' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+            'status_code' => '404'
+        ]);
+        Db::table('url_checks')->insert([
+            'url_id' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+            'status_code' => 'test_200'
+        ]);
     }
 
     public function testIndex()
@@ -33,6 +45,7 @@ class UrlControllerTest extends TestCase
         $response->assertOk();
         $response->assertSeeText('Test1');
         $response->assertSeeText('Test2');
+        $response->assertSeeText('test_200');
     }
 
     public function testCreate()
@@ -56,5 +69,12 @@ class UrlControllerTest extends TestCase
         $response->assertRedirect(route('urls.index'));
 
         $this->assertDatabaseHas('urls', $data['url']);
+    }
+
+    public function testUrlsCheck()
+    {
+        $response = $this->post(route('urls.check', ['id' => 1]));
+        $response->assertRedirect(route('urls.show', ['id' => 1]));
+        $this->assertDatabaseHas('url_checks', ['id' => 3]);
     }
 }

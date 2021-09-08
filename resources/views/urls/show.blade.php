@@ -36,5 +36,22 @@
                 </tr>
             </table>
         </div>
+        <h2 class="mt-5 mb-3">Проверки</h2>
+        <form method="post" action="{{ route('urls.check', ['id' => $url->id]) }}">
+            <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+            <input type="submit" class="btn btn-primary" value="Запустить проверку">
+        </form>
+        <table class="table table-bordered table-hover text-nowrap">
+            <tr>
+                <th>ID</th>
+                <th>Дата создания</th>
+            </tr>
+            @foreach($url_checks as $check)
+                <tr>
+                    <td>{{ $check->id }}</td>
+                    <td>{{ $check->created_at }}</td>
+                </tr>
+            @endforeach
+        </table>
     </div>
 @endsection
