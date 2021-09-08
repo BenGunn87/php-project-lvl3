@@ -11,6 +11,14 @@ setup:
 	php artisan migrate
 	php artisan db:seed
 
+setup-for-auto-test:
+    composer install
+    cp -n .env.ci .env|| true
+    php artisan key:gen --ansi
+    touch database/database.sqlite
+    php artisan migrate
+    php artisan db:seed
+
 setup-start: setup
 	php artisan serve --host 0.0.0.0
 
@@ -42,13 +50,13 @@ compose:
 	docker-compose up
 
 compose-test:
-	docker-compose run web make test
+	docker-compose run app make test
 
 compose-bash:
-	docker-compose run web bash
+	docker-compose run app bash
 
 compose-setup: compose-build
-	docker-compose run web make setup
+	docker-compose run app make setup
 
 compose-start: compose-build
 	docker-compose up -d
