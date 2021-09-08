@@ -12,12 +12,12 @@ setup:
 	php artisan db:seed
 
 setup-for-auto-test:
-    composer install
-    cp -n .env.ci .env|| true
-    php artisan key:gen --ansi
-    touch database/database.sqlite
-    php artisan migrate
-    php artisan db:seed
+	composer install
+	cp -n .env.ci .env|| true
+	php artisan key:gen --ansi
+	touch database/database.sqlite
+	php artisan migrate
+	php artisan db:seed
 
 setup-start: setup
 	php artisan serve --host 0.0.0.0
