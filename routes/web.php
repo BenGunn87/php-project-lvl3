@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,6 +48,7 @@ Route::get('/urls/{id}', function ($id) {
         ->find($id);
     $url_checks = DB::table('url_checks')
         ->where('url_id', '=', $id)
+        ->orderByDesc('id')
         ->get();
     return view('urls.show', compact('url', 'url_checks'));
 })->name('urls.show');
@@ -77,11 +79,19 @@ Route::post('/urls', function (Request $request) {
 })->name('urls.store');
 
 Route::post('/urls/{id}/checks', function ($id) {
-    DB::table('url_checks')->insert([
-        'url_id' => $id,
-        'created_at' => Carbon::now(),
-        'updated_at' => Carbon::now()
-    ]);
+    $url = DB::table('urls')
+        ->find($id);
+    try {
+        $response = Http::get($url->name);
+        DB::table('url_checks')->insert([
+            'url_id' => $id,
+            'status_code' => $response->status(),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+    } catch (Exception $exception) {
+        flash($exception->getMessage())->error();
+    }
     return redirect()
         ->route('urls.show', ['id' => $id]);
 })->name('urls.check');

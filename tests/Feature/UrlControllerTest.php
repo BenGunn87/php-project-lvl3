@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class UrlControllerTest extends TestCase
@@ -14,6 +15,7 @@ class UrlControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        Http::fake();
         DB::table('urls')->insert([
             'name' => 'Test1',
             'created_at' => Carbon::now(),

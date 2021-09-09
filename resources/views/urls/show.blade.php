@@ -44,11 +44,13 @@
         <table class="table table-bordered table-hover text-nowrap">
             <tr>
                 <th>ID</th>
+                <th>Код ответа</th>
                 <th>Дата создания</th>
             </tr>
             @foreach($url_checks as $check)
                 <tr>
                     <td>{{ $check->id }}</td>
+                    <td>{{ $check->status_code }}</td>
                     <td>{{ $check->created_at }}</td>
                 </tr>
             @endforeach

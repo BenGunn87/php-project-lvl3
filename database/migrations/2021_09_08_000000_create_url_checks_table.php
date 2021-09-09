@@ -16,7 +16,7 @@ class CreateUrlChecksTable extends Migration
         Schema::create('url_checks', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('url_id');
-            $table->string('status_code')->nullable();
+            $table->integer('status_code')->nullable();
             $table->string('h1')->nullable();
             $table->string('keywords')->nullable();
             $table->string('description')->nullable();
